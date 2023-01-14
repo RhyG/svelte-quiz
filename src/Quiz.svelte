@@ -1,24 +1,25 @@
-<script>
-    export let quizName = "Rhys Quiz";
-    let presses = 0;
+<script lang="ts">
+    type Answer = "a" | "b" | "c" | "d";
 
-    // let title = ""
-    let a = 0;
-    let b = 0;
+    let result = "";
+    let correctAnswer: Answer = "b";
 
-    function onClick() {
-        presses += 1
+    function pickAnswer(answer: Answer) {
+        console.log('Picked', answer);
+        if (answer === correctAnswer) {
+            result = "Correct"!
+            return;
+        }
+
+        result = "Wrong";
+        return;
     }
 </script>
 
 <div>
-    <h2>{quizName}</h2>
-    <!-- <h4>{title}</h4>
-    <input bind:value={title} type="text"> -->
-    
-    <input type="number" bind:value={a}>
-    <input type="number" bind:value={b}>
-    <h4>{a + b}</h4>
-    <button on:click={onClick}>Press me</button>
-    <p>Number of presses: {presses}</p>
+    <h4>{result}</h4>
+    <button on:click={() => pickAnswer("a")}>Answer A</button>
+    <button on:click={() => pickAnswer("b")}>Answer B</button>
+    <button on:click={() => pickAnswer("c")}>Answer C</button>
+    <button on:click={() => pickAnswer("d")}>Answer D</button>
 </div>
