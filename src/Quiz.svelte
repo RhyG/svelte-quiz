@@ -6,6 +6,8 @@
 
   let answers: Answer[] = ["a", "b", "c", "d"];
 
+  let quiz = getQuiz();
+
   function pickAnswer(answer: Answer) {
     if (answer === correctAnswer) {
       result = "Correct"!;
@@ -15,9 +17,16 @@
     result = "Wrong";
     return;
   }
+
+  async function getQuiz() {
+    const res = await fetch("https://opentdb.com/api.php?amount=10&category=23&type=multiple");
+    const quiz = await res.json();
+    return quiz;
+  }
 </script>
 
 <div>
+  <button on:click={getQuiz}>Get quiz</button>
   {#if result}
     <h4 class={`${result === "Correct" ? "correct" : "incorrect"}`}>{result}</h4>
   {:else}
@@ -29,6 +38,7 @@
   {/each}
 </div>
 
+<!-- https://opentdb.com/api.php?amount=10&category=23&type=multiple -->
 <style>
   .correct {
     color: green;
