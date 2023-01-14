@@ -1,5 +1,7 @@
 <script lang="ts">
   export let question: any;
+  export let nextQuestion: () => void;
+  export let addToScore: () => void;
 
   let isCorrect: boolean;
   let isAnswered = false;
@@ -20,8 +22,14 @@
   }
 
   function checkQuestion(correct: boolean) {
-    isAnswered = true;
-    isCorrect = correct;
+    if (!isAnswered) {
+      isAnswered = true;
+      isCorrect = correct;
+
+      if (correct) {
+        addToScore();
+      }
+    }
   }
 </script>
 
@@ -30,18 +38,22 @@
 </h3>
 
 {#if isAnswered}
-  <h4>
+  <h5>
     {#if isCorrect}
       Correct!
     {:else}
       Incorrect!
     {/if}
-  </h4>
+  </h5>
 {/if}
 
 {#each allAnswers as answer}
   <button on:click={() => checkQuestion(answer.correct)}>{@html answer.answer}</button>
 {/each}
+
+{#if isAnswered}
+  <div><button on:click={nextQuestion}>Next question</button></div>
+{/if}
 
 <style>
   button {
