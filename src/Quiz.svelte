@@ -2,6 +2,8 @@
   import { onMount, beforeUpdate, afterUpdate, onDestroy } from "svelte";
   import { fly } from "svelte/transition";
 
+  import { CLOSE_EVENT } from "./constants";
+
   import Modal from "./Modal.svelte";
   import Question from "./Question.svelte";
 
@@ -50,8 +52,12 @@
     score = score + 1;
   }
 
+  const dismissModal = () => {
+    isModalOpen = false;
+  };
+
   // Reactive expression
-  $: if (score > 5) {
+  $: if (score > 0) {
     isModalOpen = true;
   }
 
@@ -79,7 +85,7 @@
 </div>
 
 {#if isModalOpen}
-  <Modal>
+  <Modal on:CLOSE_EVENT={resetQuiz}>
     <h2>You won!</h2>
     <p>Congratulations</p>
     <button on:click={resetQuiz}>Start over</button>

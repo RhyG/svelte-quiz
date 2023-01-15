@@ -1,10 +1,19 @@
 <script lang="ts">
+  import { createEventDispatcher } from "svelte";
   import { fly, fade } from "svelte/transition";
+
+  import { CLOSE_EVENT } from "./constants";
+
+  const dispatch = createEventDispatcher();
 </script>
 
 <div class="modal-bg" transition:fade>
   <div class="modal" transition:fly={{ y: -100 }}>
-    <button>Close</button>
+    <button
+      on:click={() => {
+        dispatch(CLOSE_EVENT);
+      }}>Close</button
+    >
     <!-- <slot>optional fallback</slot> -->
     <slot />
     <!-- <slot name="modal" /> -->
