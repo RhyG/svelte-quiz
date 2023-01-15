@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount, beforeUpdate, afterUpdate, onDestroy } from "svelte";
   import { fly } from "svelte/transition";
   import Question from "./Question.svelte";
 
@@ -6,6 +7,22 @@
   let score = 0;
 
   let quiz = getQuiz();
+
+  onMount(() => {
+    console.log("I mounted");
+  });
+
+  beforeUpdate(() => {
+    console.log("I am about to update");
+  });
+
+  afterUpdate(() => {
+    console.log("I updated");
+  });
+
+  onDestroy(() => {
+    console.log("I destroyed");
+  });
 
   async function getQuiz() {
     const res = await fetch("https://opentdb.com/api.php?amount=10&category=23&type=multiple");

@@ -38,7 +38,7 @@
 </h3>
 
 {#if isAnswered}
-  <h5>
+  <h5 class:correct={isCorrect} class:wrong={!isCorrect}>
     {#if isCorrect}
       Correct!
     {:else}
@@ -58,5 +58,13 @@
 <style>
   button {
     margin-right: 10px;
+  }
+
+  h5.wrong {
+    color: red;
+  }
+
+  h5.correct {
+    color: green;
   }
 </style>
