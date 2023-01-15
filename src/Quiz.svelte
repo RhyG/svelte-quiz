@@ -2,13 +2,12 @@
   import { onMount, beforeUpdate, afterUpdate, onDestroy } from "svelte";
   import { fly } from "svelte/transition";
 
-  import { CLOSE_EVENT } from "./constants";
+  import { score } from "./store";
 
   import Modal from "./Modal.svelte";
   import Question from "./Question.svelte";
 
   let activeQuestion = 0;
-  let score = 0;
 
   let quiz = getQuiz();
 
@@ -42,22 +41,14 @@
 
   function resetQuiz() {
     activeQuestion = 0;
-    score = 0;
+    score.set(0);
 
     quiz = getQuiz();
     isModalOpen = false;
   }
 
-  function addToScore() {
-    score = score + 1;
-  }
-
-  const dismissModal = () => {
-    isModalOpen = false;
-  };
-
   // Reactive expression
-  $: if (score > 0) {
+  $: if ($score > 0) {
     isModalOpen = true;
   }
 
@@ -68,7 +59,7 @@
 <div>
   <button on:click={resetQuiz}>Start new quiz</button>
 
-  <h3>My Score: {score}</h3>
+  <h3>My Score: {$score}</h3>
   <h4>Question #{questionNumber}</h4>
 
   {#await quiz}
@@ -77,7 +68,7 @@
     {#each data.results as question, index}
       {#if index === activeQuestion}
         <div in:fly={{ x: 100 }} out:fly={{ x: -200 }} class="fade-wrapper">
-          <Question {question} {nextQuestion} {addToScore} />
+          <Question {question} {nextQuestion} />
         </div>
       {/if}
     {/each}

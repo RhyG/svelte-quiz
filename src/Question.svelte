@@ -1,7 +1,8 @@
 <script lang="ts">
+  import { score } from "./store";
+
   export let question: any;
   export let nextQuestion: () => void;
-  export let addToScore: () => void;
 
   let isCorrect: boolean;
   let isAnswered = false;
@@ -27,7 +28,7 @@
       isCorrect = correct;
 
       if (correct) {
-        addToScore();
+        score.update((value) => value + 1);
       }
     }
   }
