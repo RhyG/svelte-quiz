@@ -5,9 +5,11 @@
   import { CLOSE_EVENT } from "./constants";
 
   const dispatch = createEventDispatcher();
+
+  let w: number;
 </script>
 
-<div class="modal-bg" transition:fade>
+<div class="modal-bg" transition:fade bind:clientWidth={w}>
   <div class="modal" transition:fly={{ y: -100 }}>
     <button
       on:click={() => {
@@ -15,6 +17,7 @@
       }}>Close</button
     >
     <!-- <slot>optional fallback</slot> -->
+    {w}
     <slot />
     <!-- <slot name="modal" /> -->
   </div>
