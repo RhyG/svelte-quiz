@@ -1,12 +1,16 @@
 <script lang="ts">
   import { onMount, beforeUpdate, afterUpdate, onDestroy } from "svelte";
   import { fly } from "svelte/transition";
+
+  import Modal from "./Modal.svelte";
   import Question from "./Question.svelte";
 
   let activeQuestion = 0;
   let score = 0;
 
   let quiz = getQuiz();
+
+  let isModalOpen = false;
 
   onMount(() => {
     console.log("I mounted");
@@ -39,6 +43,7 @@
     score = 0;
 
     quiz = getQuiz();
+    isModalOpen = false;
   }
 
   function addToScore() {
@@ -46,9 +51,8 @@
   }
 
   // Reactive expression
-  $: if (score > 1) {
-    alert("You won!");
-    // resetQuiz();
+  $: if (score > 5) {
+    isModalOpen = true;
   }
 
   // Reactive declaration
@@ -73,6 +77,14 @@
     {/each}
   {/await}
 </div>
+
+{#if isModalOpen}
+  <Modal>
+    <h2>You won!</h2>
+    <p>Congratulations</p>
+    <button on:click={resetQuiz}>Start over</button>
+  </Modal>
+{/if}
 
 <style>
   .fade-wrapper {
